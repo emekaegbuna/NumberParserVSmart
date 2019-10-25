@@ -20,6 +20,8 @@ public class NumberParserTest {
         prefixes = new HashMap<>();
         countryCodes.put("GB", 44); prefixes.put("GB", "0");
         countryCodes.put("US", 1); prefixes.put("US", "1");
+        countryCodes.put("G", 4); prefixes.put("G", "9");
+
         parser = new NumberParser(countryCodes, prefixes);
     }
 
@@ -30,7 +32,7 @@ public class NumberParserTest {
 
     @Test
     public void returnInternationalDialledNumberForInternationalFormatInput(){
-        assertEquals("+442079460056", parser.parse("+442079460056", "+441614960148"));
+        assertEquals("+12079460056", parser.parse("+12079460056", "+441614960148"));
     }
 
     @Test
@@ -56,6 +58,12 @@ public class NumberParserTest {
 
     @Test
     public void warnNoMatchingPrefixAndCallingCodeInDatabase(){
-        assertEquals("Unable to find matching CountryCode with Prefix of dialled number", parser.parse("62079418573", "+441614960148"));
+        assertEquals("Unable to find matching CountryCode with Prefix of users number", parser.parse("02079418573", "+111614960148"));
     }
+
+    @Test
+    public void warnNoMatchingPrefixAsZeroInDatabase(){
+        assertEquals("Unable to find matching CountryCode with Prefix of users number", parser.parse("02079418573", "+41614960148"));
+    }
+
 }

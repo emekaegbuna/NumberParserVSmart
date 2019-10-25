@@ -1,14 +1,15 @@
+
 package com.example.numberparservsmart;
 
-import org.junit.Before;
-import org.junit.Test;
+        import org.junit.Before;
+        import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+        import java.util.HashMap;
+        import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+        import static org.junit.Assert.assertEquals;
 
-public class NumberParser2Test {
+public class ParserTestK {
 
     private Map<String, Integer> countryCodes;
     private Map<String, String> prefixes;
@@ -20,19 +21,19 @@ public class NumberParser2Test {
         prefixes = new HashMap<>();
         countryCodes.put("GB", 44); prefixes.put("GB", "0");
         countryCodes.put("US", 1); prefixes.put("US", "1");
-        countryCodes.put("G", 4); prefixes.put("G", "9");
-
+        countryCodes.put("US", 33); prefixes.put("US", "0");
         parser = new NumberParser2(countryCodes, prefixes);
     }
 
     @Test
     public void convertNationalDialledNumberToInternationalFormat(){
         assertEquals("+442079460056", parser.parse("02079460056", "+441614960148"));
+        assertEquals("+332079460056", parser.parse("02079460056", "+331614960148"));
     }
 
     @Test
     public void returnInternationalDialledNumberForInternationalFormatInput(){
-        assertEquals("+12079460056", parser.parse("+12079460056", "+441614960148"));
+        assertEquals("+442079460056", parser.parse("+442079460056", "+441614960148"));
     }
 
     @Test
@@ -58,12 +59,6 @@ public class NumberParser2Test {
 
     @Test
     public void warnNoMatchingPrefixAndCallingCodeInDatabase(){
-        assertEquals("Unable to find matching CountryCode with Prefix of users number", parser.parse("02079418573", "+111614960148"));
+        assertEquals("Unable to find matching CountryCode with Prefix of users number", parser.parse("62079418573", "+441614960148"));
     }
-
-    @Test
-    public void warnNoMatchingPrefixAsZeroInDatabase(){
-        assertEquals("Unable to find matching CountryCode with Prefix of users number", parser.parse("02079418573", "+41614960148"));
-    }
-
 }
